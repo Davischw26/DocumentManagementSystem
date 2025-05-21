@@ -12,6 +12,8 @@ interface FileMetadata {
   size: number;
   uploadedAt: string;
   url: string;
+  schema: string;
+  analysis: any;
 }
 
 export default function Home() {
@@ -140,6 +142,12 @@ export default function Home() {
                   Size
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
+                  Schema
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
+                  Analysis
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
                   Uploaded At
                 </th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
@@ -161,6 +169,18 @@ export default function Home() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
                     {formatFileSize(file.size)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
+                    {file.schema}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
+                    {file.analysis ? (
+                      <pre className="whitespace-pre-wrap">
+                        {JSON.stringify(file.analysis, null, 2)}
+                      </pre>
+                    ) : (
+                      "No analysis available"
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
                     {new Date(file.uploadedAt).toLocaleString()}

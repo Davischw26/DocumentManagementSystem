@@ -24,22 +24,27 @@ export async function POST(request: Request) {
     }
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4.1-mini",
       messages: [
         {
           role: "system",
           content:
-            "Du bist ein Dokumentenanalyseassistent. Analysiere den bereitgestellten Inhalt und extrahiere wichtige Informationen.",
+            "Du bist ein Dokumentenanalyseassistent. Analysiere das bereitgestellte Bild und extrahiere wichtige Informationen gemäß dem vorgegebenen Schema.",
         },
         {
           role: "user",
-          content: content,
+          content: [
+            {
+              type: "image_url",
+              image_url: { url: content },
+            },
+          ],
         },
       ],
-      response_format: schema,
+      response_format: { type: "json_schema", json_schema: schema },
     });
 
-    const result = JSON.parse(response.choices[0]?.message?.content || "{}");
+    const result = JSON.parse(response.choices[0].message.content || "{}");
 
     return NextResponse.json(result);
   } catch (error) {
