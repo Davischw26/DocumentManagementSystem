@@ -1,35 +1,22 @@
 const rechnungSchema = {
   name: "rechnung",
   schema: {
-    description: "Schema für ein einfaches Rechnungsdokument",
     type: "object",
     properties: {
       rechnungsnummer: {
         type: "string",
-        description: "Eindeutige Kennung der Rechnung",
       },
       rechnungsdatum: {
         type: "string",
-        description: "Datum der Rechnungsstellung (JJJJ-MM-TT)",
-      },
-      faelligkeitsdatum: {
-        type: "string",
-        description: "Datum, bis zu dem die Zahlung fällig ist (JJJJ-MM-TT)",
       },
       verkaeufer: {
         type: "object",
         properties: {
           name: {
             type: "string",
-            description: "Name des Verkäufers oder Dienstleisters",
           },
           adresse: {
             type: "string",
-            description: "Adresse des Verkäufers",
-          },
-          steuer_id: {
-            type: "string",
-            description: "Steueridentifikationsnummer des Verkäufers",
           },
         },
         required: ["name", "adresse"],
@@ -39,70 +26,36 @@ const rechnungSchema = {
         properties: {
           name: {
             type: "string",
-            description: "Name des Kunden oder Auftraggebers",
           },
           adresse: {
             type: "string",
-            description: "Adresse des Kunden",
-          },
-          kunden_id: {
-            type: "string",
-            description: "Interne Kundenkennung (optional)",
           },
         },
         required: ["name", "adresse"],
       },
       positionen: {
         type: "array",
-        description: "Liste der Artikel oder Dienstleistungen auf der Rechnung",
         items: {
           type: "object",
           properties: {
             beschreibung: {
               type: "string",
-              description: "Beschreibung des Artikels oder der Dienstleistung",
             },
             menge: {
               type: "number",
-              description: "Menge des Artikels",
             },
             einzelpreis: {
               type: "number",
-              description: "Preis pro Einheit",
-            },
-            zeilen_gesamt: {
-              type: "number",
-              description:
-                "Gesamtbetrag für diese Position (Menge * Einzelpreis)",
             },
           },
-          required: ["beschreibung", "menge", "einzelpreis", "zeilen_gesamt"],
+          required: ["beschreibung", "menge", "einzelpreis"],
         },
-      },
-      zwischensumme: {
-        type: "number",
-        description: "Zwischensumme vor Steuern und Rabatten",
-      },
-      steuerbetrag: {
-        type: "number",
-        description: "Gesamtsteuerbetrag",
       },
       gesamtbetrag: {
         type: "number",
-        description: "Gesamtbetrag der Rechnung",
       },
       waehrung: {
         type: "string",
-        description: "Währung der Rechnung (z. B. USD, EUR)",
-      },
-      zahlungsbedingungen: {
-        type: "string",
-        description:
-          "Beschreibung der Zahlungsbedingungen (z. B. Netto 30 Tage)",
-      },
-      anmerkungen: {
-        type: "string",
-        description: "Zusätzliche Anmerkungen auf der Rechnung",
       },
     },
     required: [
@@ -111,15 +64,126 @@ const rechnungSchema = {
       "verkaeufer",
       "kunde",
       "positionen",
-      "zwischensumme",
       "gesamtbetrag",
       "waehrung",
     ],
   },
 };
 
-export type SchemaType = typeof rechnungSchema;
+const bewerbungSchema = {
+  name: "bewerbung",
+  schema: {
+    type: "object",
+    properties: {
+      bewerbungs_id: {
+        type: "string",
+        description: "Eindeutige ID der Bewerbung",
+      },
+      stellentitel: {
+        type: "string",
+        description: "Für welche Stelle sich beworben wird",
+      },
+      bewerber: {
+        type: "object",
+        properties: {
+          vorname: {
+            type: "string",
+            description: "Vorname des Bewerbers",
+          },
+          nachname: {
+            type: "string",
+            description: "Nachname des Bewerbers",
+          },
+          email: {
+            type: "string",
+            format: "email",
+            description: "E-Mail-Adresse des Bewerbers",
+          },
+          telefon: {
+            type: "string",
+            description: "Telefonnummer des Bewerbers (optional)",
+          },
+        },
+        required: ["vorname", "nachname", "email"],
+      },
+      bewerbungsdatum: {
+        type: "string",
+        format: "date",
+        description: "Datum der Bewerbung (JJJJ-MM-TT)",
+      },
+      status: {
+        type: "string",
+        enum: ["eingegangen", "in Bearbeitung", "abgelehnt", "angenommen"],
+        description: "Aktueller Status der Bewerbung",
+      },
+    },
+    required: [
+      "bewerbungs_id",
+      "stellentitel",
+      "bewerber",
+      "bewerbungsdatum",
+      "status",
+    ],
+  },
+};
+
+const krankmeldungSchema = {
+  name: "krankmeldung",
+  schema: {
+    type: "object",
+    properties: {
+      krankmeldung_id: {
+        type: "string",
+        description: "Eindeutige ID der Krankmeldung",
+      },
+      mitarbeiter_id: {
+        type: "string",
+        description: "ID des Mitarbeiters",
+      },
+      beginn_krankheit: {
+        type: "string",
+        format: "date",
+        description: "Datum, an dem die Krankheit begonnen hat (JJJJ-MM-TT)",
+      },
+      ende_krankheit: {
+        type: "string",
+        format: "date",
+        description:
+          "Voraussichtliches Ende der Krankheit (JJJJ-MM-TT) (optional)",
+      },
+      eingereicht_am: {
+        type: "string",
+        format: "date-time",
+        description: "Datum und Uhrzeit der Einreichung der Krankmeldung",
+      },
+      arztliche_bescheinigung_erforderlich: {
+        type: "boolean",
+        description: "Ist eine ärztliche Bescheinigung erforderlich?",
+      },
+      status: {
+        type: "string",
+        enum: ["eingereicht", "genehmigt", "abgelehnt"],
+        description: "Status der Krankmeldung",
+      },
+    },
+    required: [
+      "krankmeldung_id",
+      "mitarbeiter_id",
+      "beginn_krankheit",
+      "eingereicht_am",
+      "arztliche_bescheinigung_erforderlich",
+      "status",
+    ],
+  },
+};
+
+export type SchemaType =
+  | typeof rechnungSchema
+  | typeof bewerbungSchema
+  | typeof krankmeldungSchema;
 
 export const schemas: Record<string, SchemaType> = {
   rechnung: rechnungSchema,
+  bewerbung: bewerbungSchema,
+  krankmeldung: krankmeldungSchema,
 };

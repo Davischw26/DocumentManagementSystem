@@ -54,6 +54,7 @@ export default function Home() {
     if (!selectedFile) return;
 
     try {
+      setShowSchemaPopup(false);
       setUploadStatus("Uploading file...");
       const formData = new FormData();
       formData.append("file", selectedFile);
@@ -71,7 +72,6 @@ export default function Home() {
       const data = await response.json();
       console.log(`File uploaded successfully: ${data.url}`);
       setUploadStatus("File uploaded successfully!");
-      setShowSchemaPopup(false);
       setSelectedFile(null);
       fetchFiles();
     } catch (error) {

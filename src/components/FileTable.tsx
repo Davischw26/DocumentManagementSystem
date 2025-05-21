@@ -17,6 +17,12 @@ interface FileTableProps {
 }
 
 export default function FileTable({ files }: FileTableProps) {
+  // Sort files by uploadedAt date in descending order (newest first)
+  const sortedFiles = [...files].sort(
+    (a, b) =>
+      new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+  );
+
   return (
     <div className="w-full overflow-x-auto rounded-lg shadow-lg">
       <table className="min-w-full border border-[var(--foreground)]/10 rounded-lg">
@@ -34,14 +40,14 @@ export default function FileTable({ files }: FileTableProps) {
           </tr>
         </thead>
         <tbody>
-          {files.map((file) => (
+          {sortedFiles.map((file) => (
             <tr
               key={file.id}
               className="hover:bg-[var(--foreground)]/5 transition-colors duration-150"
             >
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
                 <Link href={`/document/${file.id}`} className="block">
-                  {file.originalName}
+                  {file.originalName.replace(/\.[^/.]+$/, "")}
                 </Link>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
