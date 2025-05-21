@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { RecursiveTable } from "@/components/RecursiveTable";
+import { DocumentViewer } from "@/components/DocumentViewer";
 
 interface FileMetadata {
   id: string;
@@ -70,46 +72,23 @@ export default function DocumentPage() {
   }
 
   return (
-    <div className="min-h-screen p-8">
+    <div className="h-screen p-8 overflow-hidden">
       <h1 className="text-2xl font-bold mb-6 text-[var(--foreground)]">
         {fileData.originalName}
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[calc(100vh-120px)]">
         {/* Document Panel */}
-        <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-6">
+        <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-6 overflow-hidden flex flex-col">
           <h2 className="text-xl font-semibold mb-4 text-[var(--foreground)]">
             Document
           </h2>
-          <pre className="bg-[var(--foreground)]/5 p-4 rounded overflow-auto max-h-[calc(100vh-200px)] text-[var(--foreground)]/70">
-            {JSON.stringify(fileData.document, null, 2)}
-          </pre>
+          <div className="overflow-auto flex-1">
+            <RecursiveTable data={fileData.document} />
+          </div>
         </div>
 
         {/* File Content Panel */}
-        <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4 text-[var(--foreground)]">
-            File Content
-          </h2>
-          {fileData.type.startsWith("image/") ? (
-            <div className="flex justify-center">
-              <img
-                src={fileData.url}
-                alt={fileData.originalName}
-                className="max-w-full max-h-[calc(100vh-200px)] object-contain"
-              />
-            </div>
-          ) : fileData.type === "application/pdf" ? (
-            <iframe
-              src={fileData.url}
-              className="w-full h-[calc(100vh-200px)] bg-[var(--background)]"
-              title={fileData.originalName}
-            />
-          ) : (
-            <pre className="bg-[var(--foreground)]/5 p-4 rounded overflow-auto max-h-[calc(100vh-200px)] whitespace-pre-wrap text-[var(--foreground)]/70">
-              {fileContent}
-            </pre>
-          )}
-        </div>
+        <DocumentViewer fileData={fileData} fileContent={fileContent} />
       </div>
     </div>
   );
