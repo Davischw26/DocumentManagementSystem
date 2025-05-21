@@ -3,6 +3,7 @@
 import Image from "next/image";
 import FileDrop from "@/components/FileDrop";
 import FileTable from "@/components/FileTable";
+import SchemaPopup from "@/components/SchemaPopup";
 import { useState, useEffect } from "react";
 import { schemas } from "@/data/schemas";
 
@@ -14,7 +15,7 @@ interface FileMetadata {
   uploadedAt: string;
   url: string;
   schema: string;
-  analysis: any;
+  document: any;
 }
 
 export default function Home() {
@@ -40,7 +41,7 @@ export default function Home() {
 
   const handleFilesDrop = async (files: File[]) => {
     try {
-      setUploadStatus("Select schema for file...");
+      setUploadStatus("Schema für Datei auswählen...");
       setSelectedFile(files[0]); // For now, handle only the first file
       setShowSchemaPopup(true);
     } catch (error) {
@@ -79,6 +80,12 @@ export default function Home() {
     }
   };
 
+  const handleCloseSchemaPopup = () => {
+    setShowSchemaPopup(false);
+    setSelectedFile(null);
+    setUploadStatus("");
+  };
+
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -94,32 +101,10 @@ export default function Home() {
       </div>
 
       {showSchemaPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-[var(--background)] p-6 rounded-lg shadow-xl max-w-md w-full">
-            <h2 className="text-xl font-semibold mb-4">Select Schema</h2>
-            <div className="space-y-2">
-              {Object.keys(schemas).map((schemaName) => (
-                <button
-                  key={schemaName}
-                  onClick={() => handleSchemaSelect(schemaName)}
-                  className="w-full text-left px-4 py-2 rounded hover:bg-[var(--foreground)]/10 transition-colors"
-                >
-                  {schemaName}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={() => {
-                setShowSchemaPopup(false);
-                setSelectedFile(null);
-                setUploadStatus("");
-              }}
-              className="mt-4 px-4 py-2 text-sm text-[var(--foreground)]/70 hover:text-[var(--foreground)]"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
+        <SchemaPopup
+          onSchemaSelect={handleSchemaSelect}
+          onClose={handleCloseSchemaPopup}
+        />
       )}
 
       <main className="flex flex-col gap-[32px] items-center sm:items-start mt-8">

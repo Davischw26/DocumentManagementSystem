@@ -31,7 +31,7 @@ export async function POST(request: Request) {
       uploadedAt: new Date().toISOString(),
       url: null as string | null,
       schema: schemaName,
-      analysis: null as any,
+      document: null as any,
     };
 
     // Upload the file
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     // Update the URL in metadata
     metadata.url = url;
 
-    // Convert file to base64 for analysis
+    // Convert file to base64 for document
     const arrayBuffer = await file.arrayBuffer();
     const base64 = Buffer.from(arrayBuffer).toString("base64");
     const dataUrl = `data:${file.type};base64,${base64}`;
@@ -63,8 +63,8 @@ export async function POST(request: Request) {
     );
 
     if (analyzeResponse.ok) {
-      const analysisResult = await analyzeResponse.json();
-      metadata.analysis = analysisResult;
+      const documentResult = await analyzeResponse.json();
+      metadata.document = documentResult;
     }
 
     // Create and upload the metadata JSON file

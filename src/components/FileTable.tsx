@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { formatFileSize } from "@/utils/format";
 
 interface FileMetadata {
@@ -8,7 +9,7 @@ interface FileMetadata {
   uploadedAt: string;
   url: string;
   schema: string;
-  analysis: any;
+  document: any;
 }
 
 interface FileTableProps {
@@ -34,7 +35,7 @@ export default function FileTable({ files }: FileTableProps) {
               Schema
             </th>
             <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
-              Analysis
+              Document
             </th>
             <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
               Uploaded At
@@ -63,26 +64,24 @@ export default function FileTable({ files }: FileTableProps) {
                 {file.schema}
               </td>
               <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
-                {file.analysis ? (
+                {file.document ? (
                   <pre className="whitespace-pre-wrap">
-                    {JSON.stringify(file.analysis, null, 2)}
+                    {JSON.stringify(file.document, null, 2)}
                   </pre>
                 ) : (
-                  "No analysis available"
+                  "No document available"
                 )}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
                 {new Date(file.uploadedAt).toLocaleString()}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm">
-                <a
-                  href={file.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-[var(--foreground)]/80 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/10 rounded-md transition-colors duration-150"
+                <Link
+                  href={`/document/${file.id}`}
+                  className="text-blue-600 hover:text-blue-900"
                 >
-                  View
-                </a>
+                  View Document
+                </Link>
               </td>
             </tr>
           ))}
