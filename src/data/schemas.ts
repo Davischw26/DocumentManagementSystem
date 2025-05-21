@@ -3,6 +3,11 @@ const rechnungSchema = {
   schema: {
     type: "object",
     properties: {
+      titel: {
+        type: "string",
+        description:
+          "Kurzer, beschreibender Titel der Rechnung (z.B. 'Rechnung #12345 für Büromaterial')",
+      },
       rechnungsnummer: {
         type: "string",
       },
@@ -75,6 +80,11 @@ const bewerbungSchema = {
   schema: {
     type: "object",
     properties: {
+      titel: {
+        type: "string",
+        description:
+          "Kurzer, beschreibender Titel der Bewerbung (z.B. 'Bewerbung als Softwareentwickler')",
+      },
       bewerbungs_id: {
         type: "string",
         description: "Eindeutige ID der Bewerbung",
@@ -132,6 +142,11 @@ const krankmeldungSchema = {
   schema: {
     type: "object",
     properties: {
+      titel: {
+        type: "string",
+        description:
+          "Kurzer, beschreibender Titel der Krankmeldung (z.B. 'Krankmeldung Max Mustermann')",
+      },
       krankmeldung_id: {
         type: "string",
         description: "Eindeutige ID der Krankmeldung",

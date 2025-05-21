@@ -74,7 +74,7 @@ export default function DocumentPage() {
   return (
     <div className="h-screen p-8 overflow-hidden">
       <h1 className="text-2xl font-bold mb-6 text-[var(--foreground)]">
-        {fileData.originalName}
+        {fileData.document?.titel || fileData.originalName}
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[calc(100vh-120px)]">
         {/* Document Panel */}

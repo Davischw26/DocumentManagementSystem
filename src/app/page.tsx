@@ -55,7 +55,7 @@ export default function Home() {
 
     try {
       setShowSchemaPopup(false);
-      setUploadStatus("Uploading file...");
+      setUploadStatus("Datei wird hochgeladen...");
       const formData = new FormData();
       formData.append("file", selectedFile);
       formData.append("schema", schemaName);
@@ -70,13 +70,15 @@ export default function Home() {
       }
 
       const data = await response.json();
-      console.log(`File uploaded successfully: ${data.url}`);
-      setUploadStatus("File uploaded successfully!");
+      console.log(`Datei erfolgreich hochgeladen: ${data.url}`);
+      setUploadStatus("Datei erfolgreich hochgeladen!");
       setSelectedFile(null);
       fetchFiles();
     } catch (error) {
       console.error("Error uploading file:", error);
-      setUploadStatus("Error uploading file. Please try again.");
+      setUploadStatus(
+        "Fehler beim Hochladen der Datei. Bitte versuchen Sie es erneut."
+      );
     }
   };
 
@@ -106,7 +108,7 @@ export default function Home() {
           </div>
         )}
 
-        <FileTable files={files} />
+        <FileTable files={files} onDelete={fetchFiles} />
       </main>
     </div>
   );

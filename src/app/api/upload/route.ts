@@ -1,7 +1,8 @@
-import { put } from "@vercel/blob";
+import { put, del } from "@vercel/blob";
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { schemas } from "@/data/schemas";
+import { list } from "@vercel/blob";
 
 export async function POST(request: Request) {
   try {
@@ -82,5 +83,41 @@ export async function POST(request: Request) {
       { error: "Error uploading file" },
       { status: 500 }
     );
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "No file ID provided" },
+        { status: 400 }
+      );
+    }
+
+    // List all files to find the file and metadata
+    const { blobs } = await list({ prefix: "files/" });
+    const fileBlob = blobs.find((blob) =>
+      blob.pathname.startsWith(`files/${id}`)
+    );
+
+    if (!fileBlob) {
+      return NextResponse.json({ error: "File not found" }, { status: 404 });
+    }
+
+    // Delete the file
+    await del(fileBlob.url);
+
+    // Delete the metadata file
+    const metadataUrl = `data/${id}.json`;
+    await del(metadataUrl);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting file:", error);
+    return NextResponse.json({ error: "Error deleting file" }, { status: 500 });
   }
 }
