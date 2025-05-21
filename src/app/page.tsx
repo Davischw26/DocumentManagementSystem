@@ -3,6 +3,7 @@
 import Image from "next/image";
 import FileDrop from "@/components/FileDrop";
 import { useState, useEffect } from "react";
+import { schemas } from "@/data/schemas";
 
 interface FileMetadata {
   id: string;
@@ -16,6 +17,8 @@ interface FileMetadata {
 export default function Home() {
   const [uploadStatus, setUploadStatus] = useState<string>("");
   const [files, setFiles] = useState<FileMetadata[]>([]);
+  const [showSchemaPopup, setShowSchemaPopup] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const fetchFiles = async () => {
     try {
@@ -34,31 +37,42 @@ export default function Home() {
 
   const handleFilesDrop = async (files: File[]) => {
     try {
-      setUploadStatus("Uploading files...");
+      setUploadStatus("Select schema for file...");
+      setSelectedFile(files[0]); // For now, handle only the first file
+      setShowSchemaPopup(true);
+    } catch (error) {
+      console.error("Error handling files:", error);
+      setUploadStatus("Error handling files. Please try again.");
+    }
+  };
 
-      for (const file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
+  const handleSchemaSelect = async (schemaName: string) => {
+    if (!selectedFile) return;
 
-        const response = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
+    try {
+      setUploadStatus("Uploading file...");
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("schema", schemaName);
 
-        if (!response.ok) {
-          throw new Error("Upload failed");
-        }
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-        const data = await response.json();
-        console.log(`File uploaded successfully: ${data.url}`);
+      if (!response.ok) {
+        throw new Error("Upload failed");
       }
 
-      setUploadStatus("Files uploaded successfully!");
-      // Refresh the files list after upload
+      const data = await response.json();
+      console.log(`File uploaded successfully: ${data.url}`);
+      setUploadStatus("File uploaded successfully!");
+      setShowSchemaPopup(false);
+      setSelectedFile(null);
       fetchFiles();
     } catch (error) {
-      console.error("Error uploading files:", error);
-      setUploadStatus("Error uploading files. Please try again.");
+      console.error("Error uploading file:", error);
+      setUploadStatus("Error uploading file. Please try again.");
     }
   };
 
@@ -75,6 +89,36 @@ export default function Home() {
       <div className="flex justify-center">
         <FileDrop onFilesDrop={handleFilesDrop} />
       </div>
+
+      {showSchemaPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[var(--background)] p-6 rounded-lg shadow-xl max-w-md w-full">
+            <h2 className="text-xl font-semibold mb-4">Select Schema</h2>
+            <div className="space-y-2">
+              {Object.keys(schemas).map((schemaName) => (
+                <button
+                  key={schemaName}
+                  onClick={() => handleSchemaSelect(schemaName)}
+                  className="w-full text-left px-4 py-2 rounded hover:bg-[var(--foreground)]/10 transition-colors"
+                >
+                  {schemaName}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => {
+                setShowSchemaPopup(false);
+                setSelectedFile(null);
+                setUploadStatus("");
+              }}
+              className="mt-4 px-4 py-2 text-sm text-[var(--foreground)]/70 hover:text-[var(--foreground)]"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       <main className="flex flex-col gap-[32px] items-center sm:items-start mt-8">
         {uploadStatus && (
           <div className="text-center w-full">
@@ -82,48 +126,51 @@ export default function Home() {
           </div>
         )}
 
-        <div className="w-full overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
+        <div className="w-full overflow-x-auto rounded-lg shadow-lg">
+          <table className="min-w-full border border-[var(--foreground)]/10 rounded-lg">
             <thead>
-              <tr className="bg-gray-50">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <tr className="bg-[var(--background)]">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
                   File Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
                   Type
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
                   Size
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
                   Uploaded At
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-[var(--foreground)]/10">
               {files.map((file) => (
-                <tr key={file.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <tr
+                  key={file.id}
+                  className="hover:bg-[var(--foreground)]/5 transition-colors duration-150"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
                     {file.originalName}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
                     {file.type}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
                     {formatFileSize(file.size)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
                     {new Date(file.uploadedAt).toLocaleString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <a
                       href={file.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-900"
+                      className="inline-flex items-center px-3 py-1.5 text-sm font-medium text-[var(--foreground)]/80 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/10 rounded-md transition-colors duration-150"
                     >
                       View
                     </a>
