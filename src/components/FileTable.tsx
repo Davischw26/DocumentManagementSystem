@@ -23,65 +23,40 @@ export default function FileTable({ files }: FileTableProps) {
         <thead>
           <tr className="bg-[var(--background)]">
             <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
-              File Name
-            </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
-              Type
-            </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
-              Size
+              Dateiname
             </th>
             <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
               Schema
             </th>
             <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
-              Document
-            </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
-              Uploaded At
-            </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
-              Actions
+              Hochgeladen am
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[var(--foreground)]/10">
+        <tbody>
           {files.map((file) => (
             <tr
               key={file.id}
               className="hover:bg-[var(--foreground)]/5 transition-colors duration-150"
             >
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]">
-                {file.originalName}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
-                {file.type}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
-                {formatFileSize(file.size)}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
-                {file.schema}
-              </td>
-              <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
-                {file.document ? (
-                  <pre className="whitespace-pre-wrap">
-                    {JSON.stringify(file.document, null, 2)}
-                  </pre>
-                ) : (
-                  "No document available"
-                )}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
-                {new Date(file.uploadedAt).toLocaleString()}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm">
-                <Link
-                  href={`/document/${file.id}`}
-                  className="text-blue-600 hover:text-blue-900"
-                >
-                  View Document
+                <Link href={`/document/${file.id}`} className="block">
+                  {file.originalName}
                 </Link>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
+                <Link href={`/document/${file.id}`} className="block">
+                  {file.schema}
+                </Link>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
+                {new Date(file.uploadedAt).toLocaleString("de-DE", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </td>
             </tr>
           ))}

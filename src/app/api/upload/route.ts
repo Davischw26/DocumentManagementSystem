@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     // Analyze the image using the selected schema
     const analyzeResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/analyze`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/document`,
       {
         method: "POST",
         headers: {
