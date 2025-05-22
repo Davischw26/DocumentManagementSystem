@@ -128,7 +128,7 @@ export async function DELETE(request: Request) {
     await del(metadataUrl);
 
     return NextResponse.json(
-      { success: true },
+      { success: true, id: id },
       {
         headers: {
           "Cache-Control":

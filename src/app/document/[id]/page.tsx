@@ -93,37 +93,41 @@ export default function DocumentPage() {
   }
 
   return (
-    <div className="h-screen p-8 overflow-hidden">
-      <h1 className="text-2xl font-bold mb-6 text-[var(--foreground)]">
-        {fileData.document?.titel || fileData.originalName}
-      </h1>
-      <div className="flex gap-4 mb-6">
-        <button
-          onClick={handleDownloadMedia}
-          className="px-4 py-2 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity"
-        >
-          Download Media
-        </button>
-        <button
-          onClick={handleDownloadJson}
-          className="px-4 py-2 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity"
-        >
-          Download JSON
-        </button>
+    <div className="h-screen p-2 sm:p-4 overflow-auto">
+      <div>
+        <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-[var(--foreground)] truncate">
+          {fileData.document?.titel || fileData.originalName}
+        </h1>
+        <div className="flex gap-2 sm:gap-4 mb-2">
+          <button
+            onClick={handleDownloadMedia}
+            className="px-3 sm:px-4 py-1.5 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity text-sm sm:text-base"
+          >
+            Download Media
+          </button>
+          <button
+            onClick={handleDownloadJson}
+            className="px-3 sm:px-4 py-1.5 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity text-sm sm:text-base"
+          >
+            Download JSON
+          </button>
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[calc(100vh-120px)]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4">
         {/* Document Panel */}
-        <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-6 overflow-hidden flex flex-col">
-          <h2 className="text-xl font-semibold mb-4 text-[var(--foreground)]">
+        <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-2 sm:p-4">
+          <h2 className="text-lg sm:text-xl font-semibold mb-1 text-[var(--foreground)]">
             Document
           </h2>
-          <div className="overflow-auto flex-1">
+          <div>
             <RecursiveTable data={fileData.document} />
           </div>
         </div>
 
         {/* File Content Panel */}
-        <DocumentViewer fileData={fileData} fileContent={fileContent} />
+        <div>
+          <DocumentViewer fileData={fileData} fileContent={fileContent} />
+        </div>
       </div>
     </div>
   );

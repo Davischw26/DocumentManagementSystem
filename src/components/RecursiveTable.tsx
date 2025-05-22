@@ -19,11 +19,11 @@ export const RecursiveTable: React.FC<RecursiveTableProps> = ({
 
   if (Array.isArray(data)) {
     return (
-      <div className="pl-4 border-l border-[var(--foreground)]/10">
+      <div className="pl-2 border-l border-[var(--foreground)]/10">
         {data.map((item, index) => (
           <div
             key={index}
-            className="mb-2 p-2 border border-[var(--foreground)]/10 rounded"
+            className="mb-1 p-1 border border-[var(--foreground)]/10 rounded"
           >
             <RecursiveTable data={item} level={level + 1} />
           </div>
@@ -37,10 +37,10 @@ export const RecursiveTable: React.FC<RecursiveTableProps> = ({
       <tbody className="bg-[var(--background)] divide-y divide-[var(--foreground)]/10">
         {Object.entries(data).map(([key, value]) => (
           <tr key={key}>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[var(--foreground)]/90 border-r border-[var(--foreground)]/10">
+            <td className="px-2 py-1 whitespace-nowrap text-sm font-medium text-[var(--foreground)]/90 border-r border-[var(--foreground)]/10">
               {key}
             </td>
-            <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
+            <td className="px-2 py-1 text-sm text-[var(--foreground)]/70">
               <RecursiveTable data={value} level={level + 1} />
             </td>
           </tr>

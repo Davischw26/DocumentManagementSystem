@@ -74,6 +74,8 @@ export default function Home() {
       setUploadStatus("Datei erfolgreich hochgeladen!");
       setSelectedFile(null);
       fetchFiles();
+      // Redirect to the document page using the ID from metadata
+      window.location.href = `/document/${data.metadata.id}`;
     } catch (error) {
       console.error("Error uploading file:", error);
       setUploadStatus(
