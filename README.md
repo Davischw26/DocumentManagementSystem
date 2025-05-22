@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# David's Beispielprojekt - Mini DMS
 
-## Getting Started
+Ein schlankes Dokumentenmanagement-System (DMS) zur Demonstration der Integration von KI-gesteuerter Datenextraktion und Cloud-Speicher.
 
-First, run the development server:
+## Kurzbeschreibung
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Dieses Projekt ermöglicht das Hochladen gescannter Dokumente. Mithilfe der OpenAI Vision API werden vordefinierte Daten aus den Dokumenten extrahiert. Sowohl die Originaldokumente als auch die extrahierten JSON-Daten werden sicher im Vercel Blob Storage gespeichert.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologien
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js:** Full-Stack Framework für schnelle Entwicklung und API-Routen.
+- **OpenAI Vision API:** Für intelligente Text- und Datenextraktion aus Bildern/PDFs.
+- **Vercel Blob Storage & SDK:** Zuverlässige und einfache Cloud-Speicherung.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Funktionen
 
-## Learn More
+- Hochladen von Dokumenten (PDF, JPEG, PNG).
+- Automatische Datenextraktion basierend auf einem vordefinierten Schema.
+- Speicherung von Dokument und extrahierten Daten im Vercel Blob Storage.
 
-To learn more about Next.js, take a look at the following resources:
+## Setup und Ausführung (Lokal)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1.  **Repository klonen:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    ```bash
+    git clone DEIN_REPO_URL
+    cd davids-beispielprojekt
+    ```
 
-## Deploy on Vercel
+2.  **Umgebungsvariablen konfigurieren:**
+    Erstelle eine `.env.local` Datei und füge deine API-Schlüssel und Tokens hinzu:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```dotenv
+    BLOB_READ_WRITE_TOKEN=dein_vercel_blob_token
+    OPENAI_API_KEY=dein_openai_api_schlüssel
+    NEXT_PUBLIC_BASE_URL=http://localhost:3000
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Abhängigkeiten installieren:**
+
+    ```bash
+    npm install
+    ```
+
+4.  **Projekt starten:**
+    ```bash
+    npm run dev
+    ```
+    Die Anwendung ist danach unter `http://localhost:3000` erreichbar.
+
+## Datenextraktionsschema
+
+Das Schema für die Datenextraktion ist in der Datei `src/utils/extractionSchema.js` definiert und kann dort angepasst werden.
+
+## Deployment
+
+Das Projekt ist für das Deployment auf Vercel optimiert. Stelle sicher, dass die Umgebungsvariablen in den Vercel Projekt-Einstellungen konfiguriert sind.
+
+## Lizenz
+
+Dieses Projekt steht unter der MIT-Lizenz.
+
+---
+
+_Ersetze `DEIN_REPO_URL`, `dein_vercel_blob_token`, `dein_openai_api_schlüssel` und gegebenenfalls den Pfad zur Schema-Datei durch die tatsächlichen Werte deines Projekts._

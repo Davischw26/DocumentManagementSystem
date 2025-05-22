@@ -23,6 +23,27 @@ export default function DocumentPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const handleDownloadMedia = () => {
+    if (fileData?.url) {
+      window.open(fileData.url, "_blank");
+    }
+  };
+
+  const handleDownloadJson = () => {
+    if (fileData?.document) {
+      const jsonString = JSON.stringify(fileData.document, null, 2);
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${fileData.document?.titel || "document"}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+  };
+
   useEffect(() => {
     const fetchFileData = async () => {
       try {
@@ -76,6 +97,20 @@ export default function DocumentPage() {
       <h1 className="text-2xl font-bold mb-6 text-[var(--foreground)]">
         {fileData.document?.titel || fileData.originalName}
       </h1>
+      <div className="flex gap-4 mb-6">
+        <button
+          onClick={handleDownloadMedia}
+          className="px-4 py-2 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity"
+        >
+          Download Media
+        </button>
+        <button
+          onClick={handleDownloadJson}
+          className="px-4 py-2 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity"
+        >
+          Download JSON
+        </button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[calc(100vh-120px)]">
         {/* Document Panel */}
         <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-6 overflow-hidden flex flex-col">
