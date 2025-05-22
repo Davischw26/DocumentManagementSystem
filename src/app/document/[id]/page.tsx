@@ -103,28 +103,26 @@ export default function DocumentPage() {
             onClick={handleDownloadMedia}
             className="px-3 sm:px-4 py-1.5 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity text-sm sm:text-base"
           >
-            Download Media
+            Dokument Herunterladen
           </button>
           <button
             onClick={handleDownloadJson}
             className="px-3 sm:px-4 py-1.5 bg-[var(--foreground)] text-[var(--background)] rounded-lg hover:opacity-90 transition-opacity text-sm sm:text-base"
           >
-            Download JSON
+            JSON Herunterladen
           </button>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4">
-        {/* Document Panel */}
         <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-2 sm:p-4">
           <h2 className="text-lg sm:text-xl font-semibold mb-1 text-foreground">
-            Document
+            JSON Inhalt
           </h2>
           <div>
             <RecursiveTable data={fileData.document} />
           </div>
         </div>
 
-        {/* File Content Panel */}
         <div>
           <DocumentViewer fileData={fileData} fileContent={fileContent} />
         </div>

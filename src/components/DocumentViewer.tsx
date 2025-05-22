@@ -15,9 +15,7 @@ export const DocumentViewer: React.FC<DocumentViewerProps> = ({
 }) => {
   return (
     <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-6">
-      <h2 className="text-xl font-semibold mb-4 text-foreground">
-        File Content
-      </h2>
+      <h2 className="text-xl font-semibold mb-4 text-foreground">Dokument</h2>
       {fileData.type.startsWith("image/") ? (
         <div className="flex justify-center">
           <img
