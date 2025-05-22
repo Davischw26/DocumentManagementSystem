@@ -1,6 +1,8 @@
 import { list } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: Request,
   context: { params: Promise<{ id: string }> }
@@ -31,6 +33,10 @@ export async function GET(
       return new NextResponse(content, {
         headers: {
           "Content-Type": contentType,
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
         },
       });
     } else {
@@ -41,6 +47,10 @@ export async function GET(
         headers: {
           "Content-Type": contentType,
           "Content-Length": buffer.length.toString(),
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
         },
       });
     }

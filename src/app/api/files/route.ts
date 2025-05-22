@@ -1,6 +1,8 @@
 import { list } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     // List all files in the data directory
@@ -15,7 +17,14 @@ export async function GET() {
       })
     );
 
-    return NextResponse.json(files);
+    return NextResponse.json(files, {
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   } catch (error) {
     console.error("Error fetching files:", error);
     return NextResponse.json(

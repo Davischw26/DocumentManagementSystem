@@ -1,6 +1,8 @@
 import { list } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: Request,
   context: { params: Promise<{ id: string }> }
@@ -23,7 +25,14 @@ export async function GET(
     const response = await fetch(metadataBlob.url);
     const metadata = await response.json();
 
-    return NextResponse.json(metadata);
+    return NextResponse.json(metadata, {
+      headers: {
+        "Cache-Control":
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   } catch (error) {
     console.error("Error fetching file:", error);
     return NextResponse.json({ error: "Error fetching file" }, { status: 500 });

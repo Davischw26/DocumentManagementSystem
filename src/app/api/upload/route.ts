@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { schemas } from "@/data/schemas";
 import { list } from "@vercel/blob";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -76,7 +78,17 @@ export async function POST(request: Request) {
       access: "public",
     });
 
-    return NextResponse.json({ url, metadata });
+    return NextResponse.json(
+      { url, metadata },
+      {
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
   } catch (error) {
     console.error("Error uploading file:", error);
     return NextResponse.json(
@@ -115,7 +127,17 @@ export async function DELETE(request: Request) {
     const metadataUrl = `data/${id}.json`;
     await del(metadataUrl);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json(
+      { success: true },
+      {
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
   } catch (error) {
     console.error("Error deleting file:", error);
     return NextResponse.json({ error: "Error deleting file" }, { status: 500 });
