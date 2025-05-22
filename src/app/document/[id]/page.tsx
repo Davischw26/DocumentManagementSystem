@@ -71,7 +71,7 @@ export default function DocumentPage() {
   if (loading) {
     return (
       <div className="min-h-screen p-8 flex items-center justify-center">
-        <p className="text-[var(--foreground)]/70">Loading...</p>
+        <p className="text-foreground">Loading...</p>
       </div>
     );
   }
@@ -87,7 +87,7 @@ export default function DocumentPage() {
   if (!fileData) {
     return (
       <div className="min-h-screen p-8 flex items-center justify-center">
-        <p className="text-[var(--foreground)]/70">File not found</p>
+        <p className="text-foreground">File not found</p>
       </div>
     );
   }
@@ -95,7 +95,7 @@ export default function DocumentPage() {
   return (
     <div className="h-screen p-2 sm:p-4 overflow-auto">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-[var(--foreground)] truncate">
+        <h1 className="text-xl sm:text-2xl font-bold mb-1 sm:mb-2 text-foreground truncate">
           {fileData.document?.titel || fileData.originalName}
         </h1>
         <div className="flex gap-2 sm:gap-4 mb-2">
@@ -116,7 +116,7 @@ export default function DocumentPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4">
         {/* Document Panel */}
         <div className="bg-[var(--background)] border border-[var(--foreground)]/10 rounded-lg shadow p-2 sm:p-4">
-          <h2 className="text-lg sm:text-xl font-semibold mb-1 text-[var(--foreground)]">
+          <h2 className="text-lg sm:text-xl font-semibold mb-1 text-foreground">
             Document
           </h2>
           <div>

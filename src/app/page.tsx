@@ -111,7 +111,7 @@ export default function Home() {
         <main className="flex flex-col gap-4">
           {uploadStatus && (
             <div className="text-center w-full">
-              <p className="text-gray-600">{uploadStatus}</p>
+              <p className="text-foreground">{uploadStatus}</p>
             </div>
           )}
 

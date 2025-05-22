@@ -32,7 +32,7 @@ export default function RootLayout({
           <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
             <Link
               href="/"
-              className="text-xl font-semibold hover:text-gray-600 transition-colors"
+              className="text-xl font-semibold hover:text-foreground transition-colors"
             >
               {process.env.NEXT_PUBLIC_APP_TITLE || "David's Beispielprojekt"}
             </Link>
@@ -40,7 +40,7 @@ export default function RootLayout({
               href="https://github.com/Davischw26/DocumentManagementSystem"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white hover:text-gray-600 transition-colors"
+              className="text-foreground hover:text-foreground transition-colors"
             >
               GitHub
             </a>

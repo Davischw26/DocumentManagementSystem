@@ -26,7 +26,7 @@ export default function SchemaPopup({
         </div>
         <button
           onClick={onClose}
-          className="mt-4 px-4 py-2 text-sm text-[var(--foreground)]/70 hover:text-[var(--foreground)]"
+          className="mt-4 px-4 py-2 text-sm text-foreground hover:text-foreground"
         >
           Cancel
         </button>

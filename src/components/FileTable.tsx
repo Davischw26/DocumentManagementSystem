@@ -47,16 +47,16 @@ export default function FileTable({ files, onDelete }: FileTableProps) {
       <table className="w-full border border-[var(--foreground)]/10 rounded-lg">
         <thead>
           <tr className="bg-[var(--background)]">
-            <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-foreground uppercase tracking-wider border-b border-[var(--foreground)]/10">
               Titel
             </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-foreground uppercase tracking-wider border-b border-[var(--foreground)]/10">
               Schema
             </th>
-            <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
+            <th className="px-6 py-4 text-left text-xs font-semibold text-foreground uppercase tracking-wider border-b border-[var(--foreground)]/10">
               Hochgeladen am
             </th>
-            <th className="px-6 py-4 text-right text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
+            <th className="px-6 py-4 text-right text-xs font-semibold text-foreground uppercase tracking-wider border-b border-[var(--foreground)]/10">
               Aktionen
             </th>
           </tr>
@@ -67,17 +67,17 @@ export default function FileTable({ files, onDelete }: FileTableProps) {
               key={file.id}
               className="hover:bg-[var(--foreground)]/5 transition-colors duration-150"
             >
-              <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
+              <td className="px-6 py-4 text-sm text-foreground">
                 <Link href={`/document/${file.id}`} className="block">
                   {file.document?.titel || "-"}
                 </Link>
               </td>
-              <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
+              <td className="px-6 py-4 text-sm text-foreground">
                 <Link href={`/document/${file.id}`} className="block">
                   {file.schema}
                 </Link>
               </td>
-              <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
+              <td className="px-6 py-4 text-sm text-foreground">
                 {new Date(file.uploadedAt).toLocaleString("de-DE", {
                   day: "2-digit",
                   month: "2-digit",
