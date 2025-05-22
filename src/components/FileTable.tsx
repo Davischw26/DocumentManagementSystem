@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { formatFileSize } from "@/utils/format";
 
 interface FileMetadata {
   id: string;
@@ -25,10 +24,6 @@ export default function FileTable({ files, onDelete }: FileTableProps) {
   );
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Möchten Sie diese Datei wirklich löschen?")) {
-      return;
-    }
-
     try {
       const response = await fetch(`/api/upload?id=${id}`, {
         method: "DELETE",

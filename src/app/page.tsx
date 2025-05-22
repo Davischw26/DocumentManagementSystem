@@ -88,6 +88,10 @@ export default function Home() {
     setUploadStatus("");
   };
 
+  const handleDelete = (id: string) => {
+    setFiles(files.filter((file) => file.id !== id));
+  };
+
   return (
     <div className="min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
       <div className="flex justify-center">
@@ -108,7 +112,7 @@ export default function Home() {
           </div>
         )}
 
-        <FileTable files={files} onDelete={fetchFiles} />
+        <FileTable files={files} onDelete={handleDelete} />
       </main>
     </div>
   );

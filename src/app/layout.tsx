@@ -29,13 +29,21 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <header className="border-b">
-          <nav className="container mx-auto px-4 py-4">
+          <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
             <Link
               href="/"
               className="text-xl font-semibold hover:text-gray-600 transition-colors"
             >
               Home
             </Link>
+            <a
+              href="https://github.com/Davischw26/DocumentManagementSystem"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-gray-600 transition-colors"
+            >
+              GitHub
+            </a>
           </nav>
         </header>
         <main className="container mx-auto px-4 py-8">{children}</main>
