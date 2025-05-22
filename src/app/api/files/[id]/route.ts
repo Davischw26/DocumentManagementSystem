@@ -3,15 +3,16 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await context.params;
     // List all files in the data directory
     const { blobs } = await list({ prefix: "data/" });
 
     // Find the metadata file for the requested ID
     const metadataBlob = blobs.find(
-      (blob) => blob.pathname === `data/${params.id}.json`
+      (blob) => blob.pathname === `data/${id}.json`
     );
 
     if (!metadataBlob) {
