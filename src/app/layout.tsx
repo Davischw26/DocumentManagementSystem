@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "David's Beispielprojekt",
+  title: process.env.NEXT_PUBLIC_APP_TITLE || "David's Beispielprojekt",
   description: "David's Beispielprojekt",
 };
 
@@ -34,7 +34,7 @@ export default function RootLayout({
               href="/"
               className="text-xl font-semibold hover:text-gray-600 transition-colors"
             >
-              Home
+              {process.env.NEXT_PUBLIC_APP_TITLE || "David's Beispielprojekt"}
             </Link>
             <a
               href="https://github.com/Davischw26/DocumentManagementSystem"
