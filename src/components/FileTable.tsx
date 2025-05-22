@@ -44,7 +44,7 @@ export default function FileTable({ files, onDelete }: FileTableProps) {
 
   return (
     <div className="w-full overflow-x-auto rounded-lg shadow-lg">
-      <table className="min-w-full border border-[var(--foreground)]/10 rounded-lg">
+      <table className="w-full border border-[var(--foreground)]/10 rounded-lg">
         <thead>
           <tr className="bg-[var(--background)]">
             <th className="px-6 py-4 text-left text-xs font-semibold text-[var(--foreground)]/70 uppercase tracking-wider border-b border-[var(--foreground)]/10">
@@ -67,17 +67,17 @@ export default function FileTable({ files, onDelete }: FileTableProps) {
               key={file.id}
               className="hover:bg-[var(--foreground)]/5 transition-colors duration-150"
             >
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
+              <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
                 <Link href={`/document/${file.id}`} className="block">
                   {file.document?.titel || "-"}
                 </Link>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
+              <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
                 <Link href={`/document/${file.id}`} className="block">
                   {file.schema}
                 </Link>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--foreground)]/70">
+              <td className="px-6 py-4 text-sm text-[var(--foreground)]/70">
                 {new Date(file.uploadedAt).toLocaleString("de-DE", {
                   day: "2-digit",
                   month: "2-digit",
@@ -86,7 +86,7 @@ export default function FileTable({ files, onDelete }: FileTableProps) {
                   minute: "2-digit",
                 })}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
+              <td className="px-6 py-4 text-sm text-right">
                 <button
                   onClick={() => handleDelete(file.id)}
                   className="text-red-600 hover:text-red-800 transition-colors duration-150"

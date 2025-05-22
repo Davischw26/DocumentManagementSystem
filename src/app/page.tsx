@@ -95,27 +95,31 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
-      <div className="flex justify-center">
-        <FileDrop onFilesDrop={handleFilesDrop} />
-      </div>
+    <div className="min-h-screen px-4 sm:px-8 py-8 font-[family-name:var(--font-geist-sans)]">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="flex justify-center mb-8">
+          <FileDrop onFilesDrop={handleFilesDrop} />
+        </div>
 
-      {showSchemaPopup && (
-        <SchemaPopup
-          onSchemaSelect={handleSchemaSelect}
-          onClose={handleCloseSchemaPopup}
-        />
-      )}
-
-      <main className="flex flex-col gap-[32px] items-center sm:items-start mt-8">
-        {uploadStatus && (
-          <div className="text-center w-full">
-            <p className="text-gray-600">{uploadStatus}</p>
-          </div>
+        {showSchemaPopup && (
+          <SchemaPopup
+            onSchemaSelect={handleSchemaSelect}
+            onClose={handleCloseSchemaPopup}
+          />
         )}
 
-        <FileTable files={files} onDelete={handleDelete} />
-      </main>
+        <main className="flex flex-col gap-4">
+          {uploadStatus && (
+            <div className="text-center w-full">
+              <p className="text-gray-600">{uploadStatus}</p>
+            </div>
+          )}
+
+          <div className="w-full">
+            <FileTable files={files} onDelete={handleDelete} />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

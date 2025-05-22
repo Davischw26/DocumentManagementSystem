@@ -46,7 +46,7 @@ export default function RootLayout({
             </a>
           </nav>
         </header>
-        <main className="container mx-auto px-4 py-8">{children}</main>
+        <main className="w-full">{children}</main>
       </body>
     </html>
   );
